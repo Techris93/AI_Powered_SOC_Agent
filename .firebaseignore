@@ -1,0 +1,15 @@
+# Firebase cache and artifacts
+
+.firebase/
+
+# Python project files not needed for static hosting
+
+venv/
+_.pyc
+**pycache**/
+_.db
+.env
+
+# Node artifacts
+
+node_modules/

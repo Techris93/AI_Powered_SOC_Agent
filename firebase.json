@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "ai-powered-soc-agent-ui",
+    "public": "firebase_public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

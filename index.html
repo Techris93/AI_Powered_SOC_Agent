@@ -1,518 +1,583 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI-Powered SOC Agent</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f0f23, #1a1a3e);
-            color: #e2e8f0;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: linear-gradient(135deg, #0f0f23, #1a1a3e);
+        color: #e2e8f0;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 30px;
-            background: rgba(15, 15, 35, 0.8);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 30px;
+        background: rgba(15, 15, 35, 0.8);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #60a5fa, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
+      .header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #60a5fa, #34d399);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.8;
-        }
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
 
-        .card {
-            background: rgba(15, 15, 35, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
+      .card {
+        background: rgba(15, 15, 35, 0.9);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
 
-        .card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            color: #60a5fa;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      .card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        color: #60a5fa;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .connection-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+      .connection-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
 
-        .form-group label {
-            font-weight: 500;
-            color: #cbd5e1;
-        }
+      .form-group label {
+        font-weight: 500;
+        color: #cbd5e1;
+      }
 
-        .form-group input {
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(15, 15, 35, 0.5);
-            color: #e2e8f0;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+      .form-group input {
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        background: rgba(15, 15, 35, 0.5);
+        color: #e2e8f0;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-        }
+      .form-group input:focus {
+        outline: none;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+      }
 
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
+      .btn-primary {
+        background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+        color: white;
+      }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      }
 
-        .btn-secondary {
-            background: linear-gradient(45deg, #10b981, #059669);
-            color: white;
-        }
+      .btn-secondary {
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: white;
+      }
 
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-        }
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      }
 
-        .query-section {
-            grid-column: 1 / -1;
-        }
+      .query-section {
+        grid-column: 1 / -1;
+      }
 
-        .query-input {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            background: rgba(15, 15, 35, 0.5);
-            color: #e2e8f0;
-            font-size: 1.1rem;
-            resize: vertical;
-            min-height: 100px;
-        }
+      .query-input {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(15, 15, 35, 0.5);
+        color: #e2e8f0;
+        font-size: 1.1rem;
+        resize: vertical;
+        min-height: 100px;
+      }
 
-        .query-input:focus {
-            outline: none;
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-        }
+      .query-input:focus {
+        outline: none;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+      }
 
-        .results-section {
-            grid-column: 1 / -1;
-            margin-top: 20px;
-        }
+      .results-section {
+        grid-column: 1 / -1;
+        margin-top: 20px;
+      }
 
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
 
-        .status-connected {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
+      .status-connected {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
 
-        .status-disconnected {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
+      .status-disconnected {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 2s infinite;
-        }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        animation: pulse 2s infinite;
+      }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
         }
+        50% {
+          opacity: 0.5;
+        }
+      }
 
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid #60a5fa;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid #60a5fa;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
 
-        .results-card {
-            background: rgba(15, 15, 35, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
-        }
+      .results-card {
+        background: rgba(15, 15, 35, 0.9);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 20px;
+      }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            margin: 10px 0;
-        }
+      .error-message {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        margin: 10px 0;
+      }
 
-        .success-message {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            margin: 10px 0;
-        }
+      .success-message {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        margin: 10px 0;
+      }
 
-        .hidden {
-            display: none;
-        }
+      .hidden {
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h1>🤖 AI-Powered SOC Agent</h1>
-            <p>Intelligent Security Operations Center with Natural Language Processing</p>
-        </div>
+      <div class="header">
+        <h1>🤖 AI-Powered SOC Agent</h1>
+        <p>
+          Intelligent Security Operations Center with Natural Language
+          Processing
+        </p>
+      </div>
 
-        <div class="main-content">
-            <!-- Connection Section -->
-            <div class="card">
-                <h2>
-                    🔗 Elasticsearch Connection
-                    <span id="connectionStatus" class="status-indicator status-disconnected">
-                        <span class="status-dot"></span>
-                        Disconnected
-                    </span>
-                </h2>
-                
-                <div class="connection-form">
-                    <div class="form-group">
-                        <label for="esHostUrl">Elasticsearch Host URL</label>
-                        <input type="text" id="esHostUrl" placeholder="https://your-elasticsearch-host">
-                        <p style="font-size: 0.8rem; color: #cbd5e1;">Please include the protocol, e.g., https://</p>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="apiKey">API Key</label>
-                        <input type="password" id="apiKey" placeholder="Enter API key">
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="connectToElasticsearch()">
-                        <span id="connectBtnText">Connect</span>
-                        <span id="connectLoader" class="loading hidden"></span>
-                    </button>
-                </div>
-            </div>
+      <div class="main-content">
+        <!-- Connection Section -->
+        <div class="card">
+          <h2>
+            🔗 Elasticsearch Connection
+            <span
+              id="connectionStatus"
+              class="status-indicator status-disconnected"
+            >
+              <span class="status-dot"></span>
+              Disconnected
+            </span>
+          </h2>
 
-            <!-- Available Indices -->
-            <div class="card">
-                <h2>📊 Available Indices</h2>
-                <div id="indicesList">
-                    <p>Connect to Elasticsearch to view available indices</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Query Section -->
-        <div class="card query-section">
-            <h2>💬 Natural Language Query</h2>
+          <div class="connection-form">
             <div class="form-group">
-                <label for="nlQuery">Ask your security question in natural language:</label>
-                <textarea 
-                    id="nlQuery" 
-                    class="query-input" 
-                    placeholder="Examples:
+              <label for="esHostUrl">Elasticsearch Host URL</label>
+              <input
+                type="text"
+                id="esHostUrl"
+                placeholder="https://your-elasticsearch-host"
+              />
+              <p style="font-size: 0.8rem; color: #cbd5e1">
+                Please include the protocol, e.g., https://
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="apiKey">API Key</label>
+              <input type="password" id="apiKey" placeholder="Enter API key" />
+            </div>
+
+            <button class="btn btn-primary" onclick="connectToElasticsearch()">
+              <span id="connectBtnText">Connect</span>
+              <span id="connectLoader" class="loading hidden"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Available Indices -->
+        <div class="card">
+          <h2>📊 Available Indices</h2>
+          <div id="indicesList">
+            <p>Connect to Elasticsearch to view available indices</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Query Section -->
+      <div class="card query-section">
+        <h2>💬 Natural Language Query</h2>
+        <div class="form-group">
+          <label for="nlQuery"
+            >Ask your security question in natural language:</label
+          >
+          <textarea
+            id="nlQuery"
+            class="query-input"
+            placeholder="Examples:
 • Show me all phishing attacks from last week
 • What IP addresses were involved in SQL injection attempts?
 • Analyze malware incidents from the past 24 hours
 • Show failed login attempts from yesterday"
-                ></textarea>
-            </div>
-            
-            <div style="margin-top: 15px; display: flex; gap: 10px;">
-                <button class="btn btn-secondary" onclick="processQuery()">
-                    <span id="queryBtnText">🔍 Analyze</span>
-                    <span id="queryLoader" class="loading hidden"></span>
-                </button>
-                <button class="btn btn-primary" onclick="generateReport()" id="reportBtn" style="display: none;">
-                    📄 Generate Report
-                </button>
-            </div>
+          ></textarea>
         </div>
 
-        <!-- Results Section -->
-        <div id="resultsSection" class="results-section hidden">
-            <div class="results-card">
-                <h2>📈 Analysis Results</h2>
-                <div id="resultsContent"></div>
-            </div>
+        <div style="margin-top: 15px; display: flex; gap: 10px">
+          <button class="btn btn-secondary" onclick="processQuery()">
+            <span id="queryBtnText">🔍 Analyze</span>
+            <span id="queryLoader" class="loading hidden"></span>
+          </button>
+          <button
+            class="btn btn-primary"
+            onclick="generateReport()"
+            id="reportBtn"
+            style="display: none"
+          >
+            📄 Generate Report
+          </button>
         </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="resultsSection" class="results-section hidden">
+        <div class="results-card">
+          <h2>📈 Analysis Results</h2>
+          <div id="resultsContent"></div>
+        </div>
+      </div>
     </div>
 
     <script>
-        let isConnected = false;
-        let lastAnalysis = null;
-        const API_BASE = 'http://localhost:5001/api';
+      let isConnected = false;
+      let lastAnalysis = null;
 
-        // Connect to Elasticsearch
-        async function connectToElasticsearch() {
-            const hostUrl = document.getElementById('esHostUrl').value.trim();
-            const apiKey = document.getElementById('apiKey').value.trim();
-
-            if (!hostUrl || !apiKey) {
-                showErrorMessage('Please provide both Host URL and API Key');
-                return;
-            }
-
-            document.getElementById('connectBtnText').textContent = 'Connecting...';
-            document.getElementById('connectLoader').classList.remove('hidden');
-
-            try {
-                const response = await fetch(`${API_BASE}/connect`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        host_url: hostUrl,
-                        api_key: apiKey
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    isConnected = true;
-                    updateConnectionStatus(true);
-                    displayIndices(data.indices);
-                    showSuccessMessage('Successfully connected to Elasticsearch!');
-                } else {
-                    showErrorMessage(data.detail || 'Failed to connect to Elasticsearch');
-                }
-            } catch (error) {
-                showErrorMessage('Connection failed: ' + error.message);
-            } finally {
-                document.getElementById('connectBtnText').textContent = 'Connect';
-                document.getElementById('connectLoader').classList.add('hidden');
-            }
+      function resolveApiBase() {
+        const runtimeOverride = window.SOC_API_BASE;
+        if (runtimeOverride) {
+          return runtimeOverride;
         }
 
-        // Update connection status
-        function updateConnectionStatus(connected) {
-            const statusEl = document.getElementById('connectionStatus');
-            statusEl.className = `status-indicator ${connected ? 'status-connected' : 'status-disconnected'}`;
-            statusEl.innerHTML = `<span class="status-dot"></span> ${connected ? 'Connected' : 'Disconnected'}`;
+        const savedOverride = localStorage.getItem("soc_api_base");
+        if (savedOverride) {
+          return savedOverride;
         }
 
-        // Display indices
-        function displayIndices(indices) {
-            const indicesEl = document.getElementById('indicesList');
-            if (indices && indices.length > 0) {
-                indicesEl.innerHTML = indices.map(index => 
-                    `<div style="padding: 8px; margin: 5px 0; background: rgba(96, 165, 250, 0.1); border-radius: 5px; border-left: 3px solid #60a5fa;">
+        const isLocalhost = ["localhost", "127.0.0.1"].includes(
+          window.location.hostname,
+        );
+        if (isLocalhost) {
+          return "http://localhost:5001/api";
+        }
+
+        // For production hosting, default to same-origin /api path.
+        return `${window.location.origin}/api`;
+      }
+
+      const API_BASE = resolveApiBase();
+
+      // Connect to Elasticsearch
+      async function connectToElasticsearch() {
+        const hostUrl = document.getElementById("esHostUrl").value.trim();
+        const apiKey = document.getElementById("apiKey").value.trim();
+
+        if (!hostUrl || !apiKey) {
+          showErrorMessage("Please provide both Host URL and API Key");
+          return;
+        }
+
+        document.getElementById("connectBtnText").textContent = "Connecting...";
+        document.getElementById("connectLoader").classList.remove("hidden");
+
+        try {
+          const response = await fetch(`${API_BASE}/connect`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              host_url: hostUrl,
+              api_key: apiKey,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            isConnected = true;
+            updateConnectionStatus(true);
+            displayIndices(data.indices);
+            showSuccessMessage("Successfully connected to Elasticsearch!");
+          } else {
+            showErrorMessage(
+              data.detail || "Failed to connect to Elasticsearch",
+            );
+          }
+        } catch (error) {
+          showErrorMessage("Connection failed: " + error.message);
+        } finally {
+          document.getElementById("connectBtnText").textContent = "Connect";
+          document.getElementById("connectLoader").classList.add("hidden");
+        }
+      }
+
+      // Update connection status
+      function updateConnectionStatus(connected) {
+        const statusEl = document.getElementById("connectionStatus");
+        statusEl.className = `status-indicator ${connected ? "status-connected" : "status-disconnected"}`;
+        statusEl.innerHTML = `<span class="status-dot"></span> ${connected ? "Connected" : "Disconnected"}`;
+      }
+
+      // Display indices
+      function displayIndices(indices) {
+        const indicesEl = document.getElementById("indicesList");
+        if (indices && indices.length > 0) {
+          indicesEl.innerHTML = indices
+            .map(
+              (index) =>
+                `<div style="padding: 8px; margin: 5px 0; background: rgba(96, 165, 250, 0.1); border-radius: 5px; border-left: 3px solid #60a5fa;">
                         📁 ${index}
-                    </div>`
-                ).join('');
-            } else {
-                indicesEl.innerHTML = '<p>No indices available</p>';
-            }
+                    </div>`,
+            )
+            .join("");
+        } else {
+          indicesEl.innerHTML = "<p>No indices available</p>";
+        }
+      }
+
+      // Process natural language query
+      async function processQuery() {
+        if (!isConnected) {
+          showErrorMessage("Please connect to Elasticsearch first");
+          return;
         }
 
-        // Process natural language query
-        async function processQuery() {
-            if (!isConnected) {
-                showErrorMessage('Please connect to Elasticsearch first');
-                return;
-            }
-
-            const query = document.getElementById('nlQuery').value.trim();
-            if (!query) {
-                showErrorMessage('Please enter a query');
-                return;
-            }
-
-            document.getElementById('queryBtnText').textContent = 'Analyzing...';
-            document.getElementById('queryLoader').classList.remove('hidden');
-
-            try {
-                const response = await fetch(`${API_BASE}/query`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: query })
-                });
-
-                const data = await response.json();
-
-                if (data.results) {
-                    displayResults(data.results);
-                    lastAnalysis = data.results;
-                    document.getElementById('reportBtn').style.display = 'inline-flex';
-                } else {
-                    showErrorMessage('No results found');
-                }
-            } catch (error) {
-                showErrorMessage('Query failed: ' + error.message);
-            } finally {
-                document.getElementById('queryBtnText').textContent = '🔍 Analyze';
-                document.getElementById('queryLoader').classList.add('hidden');
-            }
+        const query = document.getElementById("nlQuery").value.trim();
+        if (!query) {
+          showErrorMessage("Please enter a query");
+          return;
         }
 
-        // Display results
-        function displayResults(results) {
-            const resultsEl = document.getElementById('resultsContent');
-            resultsEl.innerHTML = '';
+        document.getElementById("queryBtnText").textContent = "Analyzing...";
+        document.getElementById("queryLoader").classList.remove("hidden");
 
-            if (results.length === 0) {
-                resultsEl.innerHTML = '<p>No events found matching your query.</p>';
-                return;
-            }
+        try {
+          const response = await fetch(`${API_BASE}/query`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: query }),
+          });
 
-            const ul = document.createElement('ul');
-            ul.style.listStyle = 'none';
-            ul.style.padding = '0';
+          const data = await response.json();
 
-            results.forEach(result => {
-                const li = document.createElement('li');
-                li.style.marginBottom = '20px';
-                li.style.padding = '15px';
-                li.style.background = 'rgba(15, 15, 35, 0.5)';
-                li.style.borderRadius = '10px';
+          if (data.results) {
+            displayResults(data.results);
+            lastAnalysis = data.results;
+            document.getElementById("reportBtn").style.display = "inline-flex";
+          } else {
+            showErrorMessage("No results found");
+          }
+        } catch (error) {
+          showErrorMessage("Query failed: " + error.message);
+        } finally {
+          document.getElementById("queryBtnText").textContent = "🔍 Analyze";
+          document.getElementById("queryLoader").classList.add("hidden");
+        }
+      }
 
-                const pre = document.createElement('pre');
-                pre.textContent = JSON.stringify(result, null, 2);
-                pre.style.whiteSpace = 'pre-wrap';
-                pre.style.wordBreak = 'break-word';
-                pre.style.fontSize = '0.9rem';
+      // Display results
+      function displayResults(results) {
+        const resultsEl = document.getElementById("resultsContent");
+        resultsEl.innerHTML = "";
 
-                li.appendChild(pre);
-                ul.appendChild(li);
-            });
-
-            resultsEl.appendChild(ul);
-            document.getElementById('resultsSection').classList.remove('hidden');
+        if (results.length === 0) {
+          resultsEl.innerHTML = "<p>No events found matching your query.</p>";
+          return;
         }
 
-        // Generate report
-        async function generateReport() {
-            if (!lastAnalysis) {
-                showErrorMessage('No analysis to generate report from');
-                return;
-            }
+        const ul = document.createElement("ul");
+        ul.style.listStyle = "none";
+        ul.style.padding = "0";
 
-            try {
-                const response = await fetch(`${API_BASE}/report`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ data: lastAnalysis })
-                });
+        results.forEach((result) => {
+          const li = document.createElement("li");
+          li.style.marginBottom = "20px";
+          li.style.padding = "15px";
+          li.style.background = "rgba(15, 15, 35, 0.5)";
+          li.style.borderRadius = "10px";
 
-                const data = await response.json();
-                alert(data.report); // For simplicity; enhance to download or display
-            } catch (error) {
-                showErrorMessage('Report generation failed: ' + error.message);
-            }
+          const pre = document.createElement("pre");
+          pre.textContent = JSON.stringify(result, null, 2);
+          pre.style.whiteSpace = "pre-wrap";
+          pre.style.wordBreak = "break-word";
+          pre.style.fontSize = "0.9rem";
+
+          li.appendChild(pre);
+          ul.appendChild(li);
+        });
+
+        resultsEl.appendChild(ul);
+        document.getElementById("resultsSection").classList.remove("hidden");
+      }
+
+      // Generate report
+      async function generateReport() {
+        if (!lastAnalysis) {
+          showErrorMessage("No analysis to generate report from");
+          return;
         }
 
-        // Utility functions
-        function showErrorMessage(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.main-content'));
-            setTimeout(() => errorDiv.remove(), 5000);
-        }
+        try {
+          const response = await fetch(`${API_BASE}/report`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: lastAnalysis }),
+          });
 
-        function showSuccessMessage(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.textContent = message;
-            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.main-content'));
-            setTimeout(() => successDiv.remove(), 5000);
+          const data = await response.json();
+          alert(data.report); // For simplicity; enhance to download or display
+        } catch (error) {
+          showErrorMessage("Report generation failed: " + error.message);
         }
+      }
 
-        // Initialize
-        updateConnectionStatus(false);
+      // Utility functions
+      function showErrorMessage(message) {
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+        document
+          .querySelector(".container")
+          .insertBefore(errorDiv, document.querySelector(".main-content"));
+        setTimeout(() => errorDiv.remove(), 5000);
+      }
+
+      function showSuccessMessage(message) {
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.textContent = message;
+        document
+          .querySelector(".container")
+          .insertBefore(successDiv, document.querySelector(".main-content"));
+        setTimeout(() => successDiv.remove(), 5000);
+      }
+
+      // Initialize
+      updateConnectionStatus(false);
     </script>
-</body>
+  </body>
 </html>
