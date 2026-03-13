@@ -7,7 +7,7 @@
 
 The **AI-Powered SOC Agent** is a web-based application designed to enhance Security Operations Center (SOC) efficiency by automating security event retrieval and analysis. Built with **Python**, **FastAPI**, and **Elasticsearch**, the agent leverages **Natural Language Processing (NLP)** using spaCy to allow SOC analysts to query security data using intuitive, natural language commands. The system identifies patterns indicative of cyber threats (e.g., phishing, SQL injections) and generates detailed incident reports, streamlining threat management processes.
 
-Hosted at: [https://ai-powered-soc-agent.netlify.app](https://ai-powered-soc-agent.netlify.app)
+Hosted at: https://ai-powered-soc-agent-97d0c.web.app/
 
 ### Key Features
 
